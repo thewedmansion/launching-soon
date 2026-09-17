@@ -254,28 +254,48 @@
     targetTimeline = Math.max(0.0, Math.min(MAX_TIMELINE, targetTimeline + scrollStep));
   }
 
-  // Touch Gesture Handlers
+  // Touch Gesture Handlers (Mobile & Tablet)
+  let touchStartX = 0;
+  let lastTouchTime = 0;
+  let touchVelocity = 0;
+
   function handleTouchStart(e) {
-    if (e.touches.length > 0) {
+    if (e.touches && e.touches.length > 0) {
       touchStartY = e.touches[0].clientY;
+      touchStartX = e.touches[0].clientX;
+      lastTouchTime = Date.now();
+      touchVelocity = 0;
       isTouching = true;
     }
   }
 
   function handleTouchMove(e) {
-    if (!isTouching || e.touches.length === 0) return;
-    e.preventDefault();
+    if (!isTouching || !e.touches || e.touches.length === 0) return;
+    if (e.cancelable) e.preventDefault();
 
     const touchY = e.touches[0].clientY;
     const deltaY = touchStartY - touchY;
-    touchStartY = touchY;
+    const now = Date.now();
+    const dt = Math.max(1, now - lastTouchTime);
 
-    const touchStep = deltaY * 0.0022;
+    touchVelocity = deltaY / dt;
+    touchStartY = touchY;
+    lastTouchTime = now;
+
+    // Responsive step
+    const touchStep = deltaY * 0.0032;
     targetTimeline = Math.max(0.0, Math.min(MAX_TIMELINE, targetTimeline + touchStep));
   }
 
   function handleTouchEnd() {
+    if (!isTouching) return;
     isTouching = false;
+
+    // Apply smooth inertia swipe momentum
+    if (Math.abs(touchVelocity) > 0.4) {
+      const momentum = touchVelocity * 0.12;
+      targetTimeline = Math.max(0.0, Math.min(MAX_TIMELINE, targetTimeline + momentum));
+    }
   }
 
   // Keyboard Navigation
@@ -310,9 +330,13 @@
 
   // Bind Listeners
   window.addEventListener('wheel', handleWheel, { passive: false });
-  window.addEventListener('touchstart', handleTouchStart, { passive: true });
-  window.addEventListener('touchmove', handleTouchMove, { passive: false });
-  window.addEventListener('touchend', handleTouchEnd, { passive: true });
+  
+  // Universal Touch Listeners
+  document.addEventListener('touchstart', handleTouchStart, { passive: true });
+  document.addEventListener('touchmove', handleTouchMove, { passive: false });
+  document.addEventListener('touchend', handleTouchEnd, { passive: true });
+  document.addEventListener('touchcancel', handleTouchEnd, { passive: true });
+
   window.addEventListener('keydown', handleKeyDown);
   window.addEventListener('resize', handleResize);
 
@@ -321,6 +345,13 @@
     handleResize();
     initFrameLoading();
     requestAnimationFrame(renderLoop);
+  });
+
+  // Re-render if tab becomes visible
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && lastDrawnIndex >= 0) {
+      drawFrame(lastDrawnIndex);
+    }
   });
 
 })();
