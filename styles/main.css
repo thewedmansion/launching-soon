@@ -287,22 +287,23 @@ h1, h2, h3, h4, p, span, a {
 
 @media (max-width: 768px) {
   #hero-canvas {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Fills mobile screen prominently like on PC */
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    object-fit: contain; /* Full fit without cropping left or right edges */
   }
 
-  /* Move THE, WED, MANSION upward on mobile so it does not touch the hands */
+  /* Center words THE, WED, MANSION in upper space above the hands */
   .text-stage:not(.stage-bottom) {
-    top: 22%;
+    top: 28%;
   }
 
   .s1-header-center {
-    top: clamp(1.2rem, 2.5vh, 2rem);
+    top: clamp(1.5rem, 3vh, 2.2rem);
   }
 
   .header-twm-logo {
-    height: clamp(28px, 4vh, 38px);
+    height: clamp(26px, 3.5vh, 34px);
   }
 
   #section-launching {
