@@ -1,0 +1,6 @@
+.DS_Store
+*.pyc
+__pycache__/
+test_*.png
+inpaint_test_*.png
+exact_gemini_logo.png
