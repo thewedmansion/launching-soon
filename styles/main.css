@@ -285,30 +285,64 @@ h1, h2, h3, h4, p, span, a {
    RESPONSIVE DESIGN
    ========================================================= */
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
+  /* Move THE, WED, MANSION upward on mobile so it does not touch the hands */
+  .text-stage:not(.stage-bottom) {
+    top: 25%;
+  }
+
+  .s1-header-center {
+    top: clamp(1.2rem, 2.5vh, 2rem);
+  }
+
+  .header-twm-logo {
+    height: clamp(28px, 4vh, 38px);
+  }
+
   #section-launching {
-    padding: 2.5rem 1.5rem;
+    padding: clamp(2rem, 4vh, 3rem) 1.2rem;
+  }
+
+  .launching-twm-monogram-img {
+    width: clamp(170px, 46vw, 250px);
+    margin-bottom: clamp(1.2rem, 2.5vh, 1.8rem);
+  }
+
+  /* Single line Launching Soon on mobile */
+  .launching-title {
+    font-size: clamp(1.15rem, 5.2vw, 1.75rem);
+    letter-spacing: clamp(0.18em, 0.28vw, 0.28em);
+    margin-left: clamp(0.18em, 0.28vw, 0.28em);
+    white-space: nowrap;
+  }
+
+  /* Reduced Stay Tuned size on mobile */
+  .launching-subtitle {
+    font-size: clamp(0.68rem, 2.6vw, 0.85rem);
+    letter-spacing: clamp(0.18em, 0.25vw, 0.25em);
+    margin-top: clamp(0.5rem, 1vh, 0.75rem);
+    margin-left: clamp(0.18em, 0.25vw, 0.25em);
   }
 
   .stage-word {
-    font-size: clamp(2rem, 9vw, 3rem);
+    font-size: clamp(1.8rem, 7.5vw, 2.8rem);
+    letter-spacing: clamp(0.24em, 0.35vw, 0.35em);
+    margin-left: clamp(0.24em, 0.35vw, 0.35em);
   }
 
   .stage-phrase {
-    font-size: clamp(0.72rem, 3.2vw, 0.95rem);
-    white-space: normal;
-    text-align: center;
+    font-size: clamp(0.62rem, 2.6vw, 0.85rem);
+    letter-spacing: clamp(0.16em, 0.24vw, 0.24em);
+    margin-left: clamp(0.16em, 0.24vw, 0.24em);
+    white-space: nowrap;
   }
 
   .text-stage.stage-bottom {
-    bottom: clamp(3.5rem, 12vh, 5.5rem);
+    bottom: clamp(2.5rem, 8vh, 4rem);
   }
 
-  .launching-title {
-    font-size: clamp(1.5rem, 7vw, 2.4rem);
-  }
-
-  .launching-subtitle {
-    font-size: clamp(0.9rem, 4.5vw, 1.3rem);
+  .locations-list {
+    font-size: clamp(0.58rem, 2.2vw, 0.75rem);
+    letter-spacing: clamp(0.16em, 0.24vw, 0.24em);
   }
 }
